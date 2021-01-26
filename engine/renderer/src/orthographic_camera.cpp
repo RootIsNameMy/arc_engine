@@ -11,7 +11,7 @@ namespace arc{
     }
 
     void OrthographicCamera::SetView(const glm::vec3 &position, float rotation) {
-        view_ = glm::translate(glm::mat4(1), position*glm::vec3{1,-1,0});
+        view_ = glm::translate(glm::mat4(1), position);
         view_ = glm::inverse(glm::rotate(view_, rotation, {0,0,1}));
         view_projection_ = projection_*view_;
     }

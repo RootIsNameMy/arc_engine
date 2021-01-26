@@ -11,15 +11,16 @@
 #elif ARC_PLATFORM_OPENGL_ES
 #include "opengl_es_texture.h"
 #endif
+#include "engine.h"
 namespace arc {
 
 
     void Texture::Create2D(const std::string &path) {
         Dispose();
 #ifdef ARC_PLATFORM_OPENGL
-        texture_ = new OpenGLTexture(path);
+        texture_ = new OpenGLTexture(Engine::config().asset_folder + path);
 #elif ARC_PLATFORM_OPENGL_ES
-        texture_ = new OpenGLESTexture(path);
+        texture_ = new OpenGLESTexture(Engine::config().asset_folder + path);
 #else
         arc_core_assert(false, "Not Supported");
 #endif

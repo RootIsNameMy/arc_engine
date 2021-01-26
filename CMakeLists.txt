@@ -11,9 +11,8 @@ project(
         LANGUAGES CXX C
 )
 
-set( CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Platform definition
+# Platform variables
 #-------------------------------------
 if (ANDROID)
     set(ARC_PLATFORM_ANDROID 1)
@@ -29,23 +28,6 @@ else ()
 endif ()
 #-------------------------------------
 
-if(ARC_PLATFORM_ANDROID)
-    add_compile_definitions(ARC_PLATFORM_ANDROID)
-elseif(ARC_PLATFORM_LINUX)
-    add_compile_definitions(ARC_PLATFORM_LINUX)
-endif()
-
-if(ARC_PLATFORM_SDL)
-    add_compile_definitions(ARC_PLATFORM_SDL)
-elseif(ARC_PLATFORM_GLFW)
-    add_compile_definitions(ARC_PLATFORM_GLFW)
-endif()
-
-if(ARC_PLATFORM_OPENGL_ES)
-    add_compile_definitions(ARC_PLATFORM_OPENGL_ES)
-elseif(ARC_PLATFORM_OPENGL)
-    add_compile_definitions(ARC_PLATFORM_OPENGL)
-endif()
 
 
 
@@ -97,6 +79,9 @@ endif()
 
 add_subdirectory(external)
 add_subdirectory(engine)
+
+
+
 
 
 #

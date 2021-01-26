@@ -18,8 +18,6 @@ namespace arc{
         app_caller_.Init();
         while (running_){
 
-
-
             float time = window_.GetTime();
             delta_time_ = time - last_frame_time_;
             last_frame_time_ = time;
@@ -58,6 +56,15 @@ namespace arc{
         running_ = false;
         return true;
     }
+
+    void Engine::SetAppConfig(const Engine::AppConfig &appConfig) {
+        config_ = appConfig;
+        if(config_.title.empty()){
+            config_.title = "Untitled project";
+        }
+    }
+
+
 
 
 }

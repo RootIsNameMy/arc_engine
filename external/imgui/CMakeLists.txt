@@ -22,11 +22,11 @@ else()
 endif()
 
 if(ARC_PLATFORM_OPENGL)
-    add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD) #TODO: doestn actualy work
-    target_sources(imgui PUBLIC imgui/backends/imgui_impl_opengl3.cpp)
+    target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
+    target_sources(imgui PUBLIC imgui/backends/imgui_impl_opengl3.cpp imgui/backends/imgui_impl_opengl3.h)
 elseif(ARC_PLATFORM_OPENGL_ES)
-    add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-    target_sources(imgui PUBLIC imgui/backends/imgui_impl_opengl3.cpp)
+    target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
+    target_sources(imgui PUBLIC imgui/backends/imgui_impl_opengl3.cpp imgui/backends/imgui_impl_opengl3.h)
 else()
     message(FATAL_ERROR "Not supported!")
 endif()
@@ -37,7 +37,7 @@ target_sources(imgui
         imgui/imgui_draw.cpp
         imgui/imgui_widgets.cpp
         imgui/imgui_tables.cpp
-        imgui/imgui_demo.cpp
+        #imgui/imgui_demo.cpp
         imgui/imgui.cpp)
 target_include_directories(imgui PUBLIC imgui imgui/backends)
 

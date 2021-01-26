@@ -20,6 +20,7 @@ namespace arc{
 
         struct AppConfig{
             std::string asset_folder;
+            std::string title;
         };
         struct RendererConfig{
             // contains graphics card capabilities (max texture slots, max vertices in a draw call..)
@@ -31,14 +32,33 @@ namespace arc{
         template<typename T>
         inline void LaunchDesktopApp(const AppConfig& config){//TODO: add LaunchAndroidApp
             LOG_INIT();
-            logci("DELA");
             arc_core_assert(instance_ == nullptr,"Application already exists");
             instance_ = this;
             config_ = config;//TODO: check config asset folder (set to executable location if not set) also set to android
-            logce("test");
             EventHandler::Init();
 
-            window_.Create({"Arc Engine", 1280, 720});
+            window_.Create({config_.title, 1280, 720});
+
+            RenderCommand::Init();
+            RenderCommand::SetViewport(0,0,window_.width(),window_.height());
+
+            EventHandler::SubscribeWindow(this,EventHandler::front);
+
+
+
+            app_caller_.Create(new T());
+            Run();
+        }
+
+        template<typename T>
+        inline void LaunchAndroidApp(const AppConfig& config){//TODO: add LaunchAndroidApp
+            LOG_INIT();
+            arc_core_assert(instance_ == nullptr,"Application already exists");
+            instance_ = this;
+            SetAppConfig(config);
+            EventHandler::Init();
+
+            window_.Create({config_.title, 1280, 720});
 
             RenderCommand::Init();
             RenderCommand::SetViewport(0,0,window_.width(),window_.height());
@@ -60,6 +80,8 @@ namespace arc{
 
         static const AppConfig& config() {return instance_->config_;}
     private:
+
+        void SetAppConfig(const AppConfig& appConfig);
 
         static Engine* instance_;
         ApplicationCaller app_caller_;

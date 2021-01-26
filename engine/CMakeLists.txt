@@ -49,4 +49,29 @@ target_include_directories(arc_engine PUBLIC extern/glad/include INTERFACE inclu
 target_link_libraries(arc_engine PUBLIC arc_renderer arc_core arc_imgui dl) #TODO: check GL and dl
 
 
+if(ARC_PLATFORM_ANDROID)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_ANDROID)
+elseif(ARC_PLATFORM_LINUX)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_LINUX)
+else()
+    message(FATAL_ERROR "Platform is not supported!")
+endif()
+
+if(ARC_PLATFORM_SDL)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_SDL)
+elseif(ARC_PLATFORM_GLFW)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_GLFW)
+else()
+    message(FATAL_ERROR "Platform is not supported!")
+endif()
+
+if(ARC_PLATFORM_OPENGL_ES)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_OPENGL_ES)
+elseif(ARC_PLATFORM_OPENGL)
+    target_compile_definitions(arc_engine PUBLIC ARC_PLATFORM_OPENGL)
+else()
+    message(FATAL_ERROR "Platform is not supported!")
+endif()
+
+
 
