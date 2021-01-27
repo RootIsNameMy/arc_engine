@@ -6,15 +6,38 @@
 #include "../../renderer/include/renderer_api.h"
 
 #include "event_handler.h"
-
+#ifdef ARC_IMGUI
+#define INIT(x) x.Init()
+#define DISPOSE(x) x.Dispose()
+#define BEGIN(x) x.Begin()
+#define END(x) x.End()
+#define IMGUI_RENDER(x) x.ImGuiRender()
+#else
+#define INIT(x)
+#define DISPOSE(x)
+#define BEGIN(x)
+#define END(x)
+#define IMGUI_RENDER(x)
+#endif
 namespace arc{
     Engine* Engine::instance_{nullptr};
 
 
+    void Engine::GeneralInit() {
+        EventHandler::Init();
+
+        window_.Create({config_.title, 1280, 720});
+
+        RenderCommand::Init();
+        RenderCommand::SetViewport(0,0,window_.width(),window_.height());
+
+        EventHandler::SubscribeWindow(this,EventHandler::front);
+    }
+
     void Engine::Run() {
         running_ = true;
 
-        imgui_layer_.Init();
+        INIT(imgui_layer_);
         app_caller_.Init();
         while (running_){
 
@@ -24,25 +47,19 @@ namespace arc{
 
             app_caller_.Update();
 
-
-            imgui_layer_.Begin();
+            BEGIN(imgui_layer_);
             {
-                app_caller_.ImGuiRender();
+                IMGUI_RENDER(app_caller_);
             }
-            imgui_layer_.End();
+            END(imgui_layer_);
 
 
             window_.OnUpdate();
 
-
-
-
-
-
         }
 
         app_caller_.Dispose();
-        imgui_layer_.Dispose();
+        DISPOSE(imgui_layer_);
 
     }
 
@@ -63,8 +80,6 @@ namespace arc{
             config_.title = "Untitled project";
         }
     }
-
-
 
 
 }

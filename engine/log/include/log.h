@@ -36,8 +36,7 @@ namespace arc{
     }
 }
 //
-#define ARC_DEBUG //TODO: put this into a config file od somekind
-#ifdef ARC_DEBUG
+#ifdef ARC_LOG
 #define LOG_INIT()      arc::impl::Log::Init()
 
 #define logct(...)     arc::impl::Log::core_logger()->trace(__VA_ARGS__)

@@ -2,6 +2,8 @@
 // Created by adolin on 20. 01. 21.
 //
 
+#include "imgui_layer.h"
+
 #include "glad/glad.h"
 
 
@@ -15,13 +17,16 @@
 
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
-#include "imgui_layer.h"
+
 #include "engine.h"
 
 
 namespace arc{
+
+
     void ImGuiLayer::Init()
     {
+
         bool err = gladLoadGL() == 0;
         if (err)
         {
@@ -68,6 +73,7 @@ namespace arc{
 
     void ImGuiLayer::Dispose()
     {
+
         ImGui_ImplOpenGL3_Shutdown();
 
     #ifdef ARC_PLATFORM_SDL
@@ -77,20 +83,13 @@ namespace arc{
     #endif
 
         ImGui::DestroyContext();
+
     }
 
-//    void ImGuiLayer::OnEvent(Event& e)
-//    {
-//        if (m_BlockEvents)
-//        {
-//            ImGuiIO& io = ImGui::GetIO();
-//            e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-//            e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-//        }
-//    }
 
     void ImGuiLayer::Begin()
     {
+
         ImGui_ImplOpenGL3_NewFrame();
         #ifdef ARC_PLATFORM_SDL
             ImGui_ImplSDL2_NewFrame((SDL_Window *) Engine::window().native_window());
@@ -98,16 +97,19 @@ namespace arc{
             ImGui_ImplGlfw_NewFrame();
         #endif
         ImGui::NewFrame();
+
     }
 
     void ImGuiLayer::End()
     {
+
         ImGuiIO& io = ImGui::GetIO();
         const Window& window = Engine::window();
         io.DisplaySize = ImVec2((float)window.width(), (float)window.height());
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
     }
 
     void ImGuiLayer::SetDarkThemeColors()

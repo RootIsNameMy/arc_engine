@@ -74,4 +74,18 @@ else()
 endif()
 
 
+if(ARC_DEBUG)
+    target_compile_definitions(arc_engine PUBLIC ARC_IMGUI)
+    target_compile_definitions(arc_engine PUBLIC ARC_LOG)
+    target_compile_definitions(arc_engine PUBLIC ARC_ASSETRS)
+elseif(ARC_HALF_RELEAS)#TODO: find better name.. its ment to be optimized code with imgui (realtime benchmarking and stuf)
+    target_compile_definitions(arc_engine PUBLIC ARC_IMGUI)
+    target_compile_definitions(arc_engine PUBLIC ARC_ASSETRS)
+    #TODO: add profiling
+elseif(ARC_RELEAS)# full releas.. no iumgui
+else()
+    message(FATAL_ERROR "Platform is not supported!")
+endif()
+
+
 

@@ -4,19 +4,15 @@
 
 #ifndef ARC_ENGINE_CORE_H
 #define ARC_ENGINE_CORE_H
-#define ARC_ENABLE_ASSERTS
 
-
-#ifdef ARC_ENABLE_ASSERTS
 
 #include "log.h"
-
-
+#ifdef ARC_ASSETRS
 #define arc_core_assert(x, ...) { if(!(x)){ logce("Assertion Failed: {0}", __VA_ARGS__); throw std::exception();}}
 #define arc_assert(x, ...) { if(!(x)){ loge("Assertion Failed: {0}", __VA_ARGS__); throw std::exception();}}
 #else
-#define ARC_CORE_ASSERT(x, ...)
-#define ARC_ASSERT(x, ...)
+#define arc_core_assert(x, ...)
+#define arc_assert(x, ...)
 #endif
 namespace arc{
     class Caller{

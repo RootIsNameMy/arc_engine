@@ -56,14 +56,7 @@ namespace arc{
             arc_core_assert(instance_ == nullptr,"Application already exists");
             instance_ = this;
             SetAppConfig(config);
-            EventHandler::Init();
-
-            window_.Create({config_.title, 1280, 720});
-
-            RenderCommand::Init();
-            RenderCommand::SetViewport(0,0,window_.width(),window_.height());
-
-            EventHandler::SubscribeWindow(this,EventHandler::front);
+            GeneralInit();
 
 
 
@@ -81,6 +74,7 @@ namespace arc{
         static const AppConfig& config() {return instance_->config_;}
     private:
 
+        void GeneralInit();
         void SetAppConfig(const AppConfig& appConfig);
 
         static Engine* instance_;
