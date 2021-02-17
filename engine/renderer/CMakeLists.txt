@@ -33,7 +33,6 @@ target_sources(arc_renderer
         PUBLIC
             src/renderer_api.cpp
             src/buffer.cpp
-            #src/font.cpp
             src/graphics_context.cpp
             src/orthographic_camera.cpp
             src/renderer_api.cpp
@@ -41,6 +40,8 @@ target_sources(arc_renderer
             src/batch_renderer.cpp
             src/texture.cpp
             src/vertex_array.cpp
+            src/perspective_camera.cpp
+            src/march_renderer.cpp
         )
 
 target_link_libraries(arc_renderer

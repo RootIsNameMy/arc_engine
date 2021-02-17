@@ -1,20 +1,21 @@
+
 //
 // Created by adolin on 23. 12. 20.
 //
 
-#ifndef ARC_ENGINE_ORTHOGRAPHIC_CAMERA_H
-#define ARC_ENGINE_ORTHOGRAPHIC_CAMERA_H
+#ifndef ARC_ENGINE_PERSPECTIVE_CAMERA_H
+#define ARC_ENGINE_PERSPECTIVE_CAMERA_H
 
 #include <glm.hpp>
 namespace arc {
-class OrthographicCamera {
+class PerspectiveCamera {
  public:
   void Setup(float screen_ratio, float zoom = 10, float z_near = -100,
              float z_far = 100, const glm::vec3& position = {0, 0, 10},
-             float rotation = 0);
+             const glm::vec3& rotation = {0,0,0});
 
-  void SetView(const glm::vec3& position, float rotation = 0);
-  void SetProjection(float screen_ratio, float zoom, float z_near = -100,
+  void SetView(const glm::vec3& position, const glm::vec3& rotation);
+  void SetProjection(float fov, float screen_ratio, float z_near = -100,
                      float z_far = 100);
 
   const glm::mat4& view() const { return view_; }
@@ -28,4 +29,4 @@ class OrthographicCamera {
 };
 }  // namespace arc
 
-#endif  // ARC_ENGINE_ORTHOGRAPHIC_CAMERA_H
+#endif  // ARC_ENGINE_PERSPECTIVE_CAMERA_H

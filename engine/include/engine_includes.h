@@ -21,5 +21,6 @@
 #include "renderer_api.h"
 #include "batch_renderer.h"
 #include "orthographic_camera.h"
+#include "march_renderer.h"
 //#include "font.h"
 #endif //ARC_ENGINE_ENGINE_INCLUDES_H

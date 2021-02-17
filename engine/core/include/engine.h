@@ -5,102 +5,95 @@
 #ifndef ARC_ENGINE_ENGINE_H
 #define ARC_ENGINE_ENGINE_H
 
-#include <renderer_api.h>
-#include "imgui_layer.h"
 #include "../include/application.h"
+#include "event_handler.h"
+#include "imgui_layer.h"
 #include "listeners.h"
 #include "window.h"
-#include "event_handler.h"
+#include <renderer_api.h>
 
-namespace arc{
+namespace arc {
 
+class Engine : public WindowListener {
+public:
+  struct AppConfig {
+    std::string asset_folder;
+    std::string title;
+  };
+  struct RendererConfig {
+    // contains graphics card capabilities (max texture slots, max vertices in a
+    // draw call..)
+  };
+  struct EngineConfig {
+    // contains asset folders for the engine (assets, shaders..)
+  };
 
-    class Engine : public WindowListener{
-    public:
+  template <typename T>
+  inline void
+  LaunchDesktopApp(const AppConfig &config) { // TODO: add LaunchAndroidApp
+    LOG_INIT();
+    arc_core_assert(instance_ == nullptr, "Application already exists");
+    instance_ = this;
+    config_ = config; // TODO: check config asset folder (set to executable
+                      // location if not set) also set to android
+    EventHandler::Init();
 
-        struct AppConfig{
-            std::string asset_folder;
-            std::string title;
-        };
-        struct RendererConfig{
-            // contains graphics card capabilities (max texture slots, max vertices in a draw call..)
-        };
-        struct EngineConfig{
-            // contains asset folders for the engine (assets, shaders..)
-        };
+    window_.Create({config_.title, 1280, 720});
 
-        template<typename T>
-        inline void LaunchDesktopApp(const AppConfig& config){//TODO: add LaunchAndroidApp
-            LOG_INIT();
-            arc_core_assert(instance_ == nullptr,"Application already exists");
-            instance_ = this;
-            config_ = config;//TODO: check config asset folder (set to executable location if not set) also set to android
-            EventHandler::Init();
+    RenderCommand::Init();
+    RenderCommand::SetViewport(0, 0, window_.width(), window_.height());
 
-            window_.Create({config_.title, 1280, 720});
+    EventHandler::SubscribeWindow(this, EventHandler::front);
 
-            RenderCommand::Init();
-            RenderCommand::SetViewport(0,0,window_.width(),window_.height());
+    app_caller_.Create(new T());
+    Run();
+  }
 
-            EventHandler::SubscribeWindow(this,EventHandler::front);
+  template <typename T>
+  inline void
+  LaunchAndroidApp(const AppConfig &config) { // TODO: add LaunchAndroidApp
+    LOG_INIT();
+    arc_core_assert(instance_ == nullptr, "Application already exists");
+    instance_ = this;
+    SetAppConfig(config);
+    EventHandler::Init();
 
+    window_.Create({config_.title, 1280, 720});
 
+    RenderCommand::Init();
+    RenderCommand::SetViewport(0, 0, window_.width(), window_.height());
 
-            app_caller_.Create(new T());
-            Run();
-        }
+    EventHandler::SubscribeWindow(this, EventHandler::front);
 
-        template<typename T>
-        inline void LaunchAndroidApp(const AppConfig& config){//TODO: add LaunchAndroidApp
-            LOG_INIT();
-            arc_core_assert(instance_ == nullptr,"Application already exists");
-            instance_ = this;
-            SetAppConfig(config);
-            EventHandler::Init();
+    app_caller_.Create(new T());
+    Run();
+  }
+  bool OnWindowResize(int width, int height) override;
+  bool OnWindowClose() override;
 
-            window_.Create({config_.title, 1280, 720});
+  static inline const Window &window() { return instance_->window_; }
 
-            RenderCommand::Init();
-            RenderCommand::SetViewport(0,0,window_.width(),window_.height());
+  static double delta_time() { return instance_->delta_time_; }
+  static double running_time() { return instance_->last_frame_time_; }
 
-            EventHandler::SubscribeWindow(this,EventHandler::front);
+  static const AppConfig &config() { return instance_->config_; }
 
+private:
+  void SetAppConfig(const AppConfig &appConfig);
 
+  static Engine *instance_;
+  ApplicationCaller app_caller_;
+  AppConfig config_;
 
-            app_caller_.Create(new T());
-            Run();
-        }
-        bool OnWindowResize(int width, int height) override;
-        bool OnWindowClose() override;
+  Window window_;
 
-        static inline const Window& window() {return instance_->window_;}
+  bool running_;
+  double last_frame_time_, delta_time_;
 
-        static double delta_time() {return instance_->delta_time_;}
-        static double running_time() {return instance_->last_frame_time_;}
+  ImGuiLayer imgui_layer_;
 
-        static const AppConfig& config() {return instance_->config_;}
-    private:
+  void Run();
+};
+} // namespace arc
 
-        void SetAppConfig(const AppConfig& appConfig);
-
-        static Engine* instance_;
-        ApplicationCaller app_caller_;
-        AppConfig config_;
-
-        Window window_;
-
-        bool running_;
-        double last_frame_time_, delta_time_;
-
-        ImGuiLayer imgui_layer_;
-
-
-        void Run();
-
-
-    };
-}
-
-
-
-#endif //ARC_ENGINE_ENGINE_H
+#endif // ARC_ENGINE_ENGINE_H

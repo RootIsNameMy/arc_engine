@@ -10,71 +10,61 @@
 #elif ARC_PLATFORM_OPENGL_ES
 #include "opengl_es_buffer.h"
 #endif
-namespace arc{
+namespace arc {
 
-
-
-
-    void VertexBuffer::Create(uint size) {
-        Dispose();
+void VertexBuffer::Create(uint size) {
+  Dispose();
 
 #ifdef ARC_PLATFORM_OPENGL
-        vertex_buffer_ = new OpenGLVertexBuffer(size);
+  vertex_buffer_ = new OpenGLVertexBuffer(size);
 #elif ARC_PLATFORM_OPENGL_ES
-        vertex_buffer_ = new OpenGLESVertexBuffer(size);
+  vertex_buffer_ = new OpenGLESVertexBuffer(size);
 #else
-        arc_core_assert(false, "Not Supported");
+  arc_core_assert(false, "Not Supported");
 #endif
 
-        BindFn();
-    }
-    void VertexBuffer::Create(float *vertices, uint count) {
-        Dispose();
-#ifdef ARC_PLATFORM_OPENGL
-        vertex_buffer_ = new OpenGLVertexBuffer(vertices, count);
-#elif ARC_PLATFORM_OPENGL_ES
-        vertex_buffer_ = new OpenGLESVertexBuffer(vertices, count);
-#else
-        arc_core_assert(false, "Not Supported");
-#endif
-
-        BindFn();
-    }
-
-
-
-    VertexBuffer::~VertexBuffer() {
-        Dispose();
-    }
-
-
-    void IndexBuffer::Create(uint size) {
-        Dispose();
-#ifdef ARC_PLATFORM_OPENGL
-        index_buffer_ = new OpenGLIndexBuffer(size);
-#elif ARC_PLATFORM_OPENGL_ES
-        index_buffer_ = new OpenGLESIndexBuffer(size);
-#else
-        arc_core_assert(false, "Not Supported");
-#endif
-
-        BindFn();
-    }
-
-    void IndexBuffer::Create(uint *indices, uint count) {
-        Dispose();
-#ifdef ARC_PLATFORM_OPENGL
-        index_buffer_ = new OpenGLIndexBuffer(indices, count);
-#elif ARC_PLATFORM_OPENGL_ES
-        index_buffer_ = new OpenGLESIndexBuffer(indices, count);
-#else
-        arc_core_assert(false, "Not Supported");
-#endif
-
-        BindFn();
-    }
-
-    IndexBuffer::~IndexBuffer() {
-        Dispose();
-    }
+  BindFn();
 }
+void VertexBuffer::Create(float *vertices, uint count) {
+  Dispose();
+#ifdef ARC_PLATFORM_OPENGL
+  vertex_buffer_ = new OpenGLVertexBuffer(vertices, count);
+#elif ARC_PLATFORM_OPENGL_ES
+  vertex_buffer_ = new OpenGLESVertexBuffer(vertices, count);
+#else
+  arc_core_assert(false, "Not Supported");
+#endif
+
+  BindFn();
+}
+
+VertexBuffer::~VertexBuffer() { Dispose(); }
+
+void IndexBuffer::Create(uint size) {
+  Dispose();
+#ifdef ARC_PLATFORM_OPENGL
+  index_buffer_ = new OpenGLIndexBuffer(size);
+#elif ARC_PLATFORM_OPENGL_ES
+  index_buffer_ = new OpenGLESIndexBuffer(size);
+#else
+  arc_core_assert(false, "Not Supported");
+#endif
+
+  BindFn();
+}
+
+void IndexBuffer::Create(uint *indices, uint count) {
+  Dispose();
+#ifdef ARC_PLATFORM_OPENGL
+  index_buffer_ = new OpenGLIndexBuffer(indices, count);
+#elif ARC_PLATFORM_OPENGL_ES
+  index_buffer_ = new OpenGLESIndexBuffer(indices, count);
+#else
+  arc_core_assert(false, "Not Supported");
+#endif
+
+  BindFn();
+}
+
+IndexBuffer::~IndexBuffer() { Dispose(); }
+} // namespace arc
