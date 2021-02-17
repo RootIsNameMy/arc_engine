@@ -26,6 +26,8 @@ elseif (UNIX)
 else ()
     message(FATAL_ERROR "Your platform is not supported!")
 endif ()
+
+set(ARC_DEBUG 1)
 #-------------------------------------
 
 

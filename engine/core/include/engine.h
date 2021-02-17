@@ -5,17 +5,18 @@
 #ifndef ARC_ENGINE_ENGINE_H
 #define ARC_ENGINE_ENGINE_H
 
+#include <renderer_api.h>
+
 #include "../include/application.h"
 #include "event_handler.h"
 #include "imgui_layer.h"
 #include "listeners.h"
 #include "window.h"
-#include <renderer_api.h>
 
 namespace arc {
 
 class Engine : public WindowListener {
-public:
+ public:
   struct AppConfig {
     std::string asset_folder;
     std::string title;
@@ -29,13 +30,13 @@ public:
   };
 
   template <typename T>
-  inline void
-  LaunchDesktopApp(const AppConfig &config) { // TODO: add LaunchAndroidApp
+  inline void LaunchDesktopApp(
+      const AppConfig &config) {  // TODO: add LaunchAndroidApp
     LOG_INIT();
     arc_core_assert(instance_ == nullptr, "Application already exists");
     instance_ = this;
-    config_ = config; // TODO: check config asset folder (set to executable
-                      // location if not set) also set to android
+    config_ = config;  // TODO: check config asset folder (set to executable
+                       // location if not set) also set to android
     EventHandler::Init();
 
     window_.Create({config_.title, 1280, 720});
@@ -50,8 +51,8 @@ public:
   }
 
   template <typename T>
-  inline void
-  LaunchAndroidApp(const AppConfig &config) { // TODO: add LaunchAndroidApp
+  inline void LaunchAndroidApp(
+      const AppConfig &config) {  // TODO: add LaunchAndroidApp
     LOG_INIT();
     arc_core_assert(instance_ == nullptr, "Application already exists");
     instance_ = this;
@@ -68,6 +69,7 @@ public:
     app_caller_.Create(new T());
     Run();
   }
+  void GeneralInit();
   bool OnWindowResize(int width, int height) override;
   bool OnWindowClose() override;
 
@@ -78,7 +80,7 @@ public:
 
   static const AppConfig &config() { return instance_->config_; }
 
-private:
+ private:
   void SetAppConfig(const AppConfig &appConfig);
 
   static Engine *instance_;
@@ -94,6 +96,6 @@ private:
 
   void Run();
 };
-} // namespace arc
+}  // namespace arc
 
-#endif // ARC_ENGINE_ENGINE_H
+#endif  // ARC_ENGINE_ENGINE_H
