@@ -1,0 +1,2 @@
+/usr/bin/ar qc libarc_log.a CMakeFiles/arc_log.dir/src/log.cpp.o
+/usr/bin/ranlib libarc_log.a

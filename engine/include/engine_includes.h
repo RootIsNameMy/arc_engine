@@ -5,22 +5,24 @@
 #ifndef ARC_ENGINE_ENGINE_INCLUDES_H
 #define ARC_ENGINE_ENGINE_INCLUDES_H
 /* CORE */
-#include "log.h"
-#include "engine.h"
 #include "application.h"
-#include "keys.h"
-#include "input.h"
 #include "buttons.h"
+#include "engine.h"
 #include "event_handler.h"
 #include "functions.h"
+#include "input.h"
+#include "keys.h"
+#include "log.h"
 
 /* EXTERN */
 #include "imgui.h"
 
 /* RENDERER */
-#include "renderer_api.h"
 #include "batch_renderer.h"
-#include "orthographic_camera.h"
+#include "line_renderer.h"
 #include "march_renderer.h"
+#include "orthographic_camera.h"
+#include "renderer_api.h"
 //#include "font.h"
-#endif //ARC_ENGINE_ENGINE_INCLUDES_H
+
+#endif  // ARC_ENGINE_ENGINE_INCLUDES_H

@@ -3,11 +3,13 @@
 //
 
 #include "batch_renderer.h"
-#include "renderer_api.h"
-#include <glm/gtc/matrix_transform.hpp>
 
 #include <engine.h>
+
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+
+#include "renderer_api.h"
 namespace arc {
 
 static const uint s_maxNumQuads = 10000;
@@ -58,7 +60,8 @@ void BatchRenderer::Init() {
 
   // shader_.Create("/home/martines/Desktop/git_repos/arc_engine/engine/shaders/2d_shader");
   shader_.Create(
-      "/home/tilen/Projects/arc_template/arc_engine/engine/shaders/2d_shader");
+      "/home/tilen/Projects/feri/URG/vaja01/arc_engine/engine/shaders/"
+      "2d_shader");
   // shader_.Create("2d_shader/opengles.glsl");
 
   int samplers[s_maxNumTextures];
@@ -87,7 +90,6 @@ void BatchRenderer::Init() {
 }
 
 void BatchRenderer::Destroy() {
-
   delete[] indices_;
   delete[] vertices_;
   delete[] textures_;
@@ -111,7 +113,6 @@ void BatchRenderer::Begin(const OrthographicCamera &camera) {
 }
 
 void BatchRenderer::End() {
-
   Flush();
 
   //        shader_text_.Bind();
@@ -131,9 +132,9 @@ void BatchRenderer::End() {
 }
 
 void BatchRenderer::Flush() {
-
   shader_.Bind();
   vertex_array_.Bind();
+  RenderCommand::SetDrawType(DrawType::Triangle);
   for (int i = 0; i < num_textures_; ++i) {
     textures_[i].bind_fn_(textures_[i].object, i);
   }
@@ -152,7 +153,6 @@ void BatchRenderer::Flush() {
 
 void BatchRenderer::DrawQuad(const glm::vec3 &pos, const glm::vec2 &size,
                              const glm::vec4 &color, float rotation) {
-
   if (num_quads_ == s_maxNumQuads) {
     Flush();
   }
@@ -346,4 +346,4 @@ void BatchRenderer::DrawQuadImpl(const glm::vec3 &pos, const glm::vec2 &size,
 //    &text, const glm::vec3 &pos) {
 //
 //    }
-} // namespace arc
+}  // namespace arc
