@@ -39,6 +39,7 @@ target_sources(arc_renderer
             src/renderer_api.cpp
             src/shader.cpp
             src/batch_renderer.cpp
+            src/line_renderer.cpp
             src/texture.cpp
             src/vertex_array.cpp
         )
